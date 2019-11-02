@@ -4,9 +4,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Exception\NotFoundException;
 
-
 require __DIR__ . '/../vendor/autoload.php';
-//require __DIR__ .'/../vendor/slim/slim/Slim/Exception/NotFoundException.php';
 
 $app = AppFactory::create();
 
