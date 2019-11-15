@@ -181,11 +181,39 @@ $app->group('/grouptest', function($app) {
 		return $response;
 	});
 
-	$app->post('/postdata', function($request, $response){
+	$app->post('/ ', function($request, $response){
 		$response->getBody()->write("Method Post");
 		return $response;
 	});
 });
+
+//_____________________________________________________________________________________________
+// nested Group of Routes (groupes dans le groupe)
+
+$app->group('/API', function($app){
+	$app->group('/V1', function($app){
+		$app->get('/getuser', function($request, $response){
+			echo "getuser V1";
+			return $response;
+		});
+		$app->post('/postuser', function($request, $response){
+			echo "Post user V1";
+			return $response;
+		});
+	});
+
+	$app->group('/V2', function($app){
+		$app->get('/getuser', function($request, $response){
+			echo "getuser V2";
+			return $response;
+		});
+		$app->post('/postuser', function($request, $response){
+			echo "Post user V2";
+			return $response;
+		});
+	});
+});
+
 
 
 $app->run();
