@@ -8,6 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 // Instantiate App
 $app = AppFactory::create();
 
+//_____________________________________________________________________________________________
 // Add error middleware
 //$app->addErrorMiddleware(true, true, true);
 
@@ -23,6 +24,7 @@ $app->get('/hello/{name}', function (Request $request, Response $response, $args
     return $response;
 });
 
+//_____________________________________________________________________________________________
 //PST TEST (tester avec Postman)
 $app->post('/testPost/demo', function(Request $req, Response $rep){
 
@@ -34,6 +36,7 @@ $app->post('/testPost/demo', function(Request $req, Response $rep){
 	return $rep;
 });
 
+//_____________________________________________________________________________________________
 //Test avec arguments
 $app->get('/testargs/{name}/{phone}', function ($request, $response, $args) {
     $name = $args['name'];
@@ -42,6 +45,7 @@ $app->get('/testargs/{name}/{phone}', function ($request, $response, $args) {
     return $response;
 });
 
+//_____________________________________________________________________________________________
 //Test Envoi du Json Response
 $app->get('/jsontest/{FirstName}/{LatsName}', function ($request, $response, $args) {
     $FirstName = $args['FirstName'];
@@ -56,6 +60,7 @@ $app->get('/jsontest/{FirstName}/{LatsName}', function ($request, $response, $ar
     return $response;
 });
 
+//_____________________________________________________________________________________________
 //Put Resource
 $app->put('/testput', function($Request, $Response){
 
@@ -67,6 +72,7 @@ $app->put('/testput', function($Request, $Response){
 
 });
 
+//_____________________________________________________________________________________________
 //Delete Resource
 $app->delete('/testdelete', function($Request, $Response){
 
@@ -78,6 +84,7 @@ $app->delete('/testdelete', function($Request, $Response){
 
 });
 
+//_____________________________________________________________________________________________
 //Multiple Methods
 $app->map(['PUT', 'GET'], '/multipleMethodsTest/{id}', function($request, $response, $args){
 
@@ -93,6 +100,7 @@ $app->map(['PUT', 'GET'], '/multipleMethodsTest/{id}', function($request, $respo
 	return $response;
 });
 
+//_____________________________________________________________________________________________
 // Optional Segments
 $app->get('/optional[/{id}]', function($request, $response, $args){
 
@@ -106,6 +114,7 @@ $app->get('/optional[/{id}]', function($request, $response, $args){
 	return $response;
 });
 
+//_____________________________________________________________________________________________
 // Multiple Optional Segments
 $app->get('/multiple/optional[/{year}[/{month}]]', function($request, $response, $args){
 
@@ -124,6 +133,7 @@ $app->get('/multiple/optional[/{year}[/{month}]]', function($request, $response,
 	return $response;
 });
 
+//_____________________________________________________________________________________________
 // Unlimited Optional Segments
 $app->get('/unlimited/optional[/{params:.*}]', function($request, $response, $args){
 
@@ -141,6 +151,7 @@ $app->get('/unlimited/optional[/{params:.*}]', function($request, $response, $ar
 	return $response;
 });
 
+//_____________________________________________________________________________________________
 // Regular expression test
 $app->get('/regular/{id:[0-9]+}/{name:[a-z]+}', function($request, $response, $args){
 	$id = $args['id'];
@@ -148,5 +159,33 @@ $app->get('/regular/{id:[0-9]+}/{name:[a-z]+}', function($request, $response, $a
 	$response->getBody()->write("This id = $id and The name is $name");
 	return $response;
 });
+
+
+//_____________________________________________________________________________________________
+// Group of Routes
+
+$app->group('/grouptest', function($app) {
+	$app->get('', function($request, $response){
+		$response->getBody()->write("Get Empty method");
+		return $response;
+	});
+
+	$app->put('', function($request, $response){
+		$response->getBody()->write("Put Empty method");
+		return $response;
+	});
+
+	$app->get('/{id}', function($request, $response, $args){
+		$id = $args['id'];
+		$response->getBody()->write("GET with id = $id");
+		return $response;
+	});
+
+	$app->post('/postdata', function($request, $response){
+		$response->getBody()->write("Method Post");
+		return $response;
+	});
+});
+
 
 $app->run();
